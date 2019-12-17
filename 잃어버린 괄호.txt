@@ -1,0 +1,35 @@
+#include<iostream>
+#include<string>
+
+using namespace std;
+
+string a= "";
+
+int main()
+{
+	cin >> a;
+	int result = 0;
+	string temp= "";
+	bool minus = false;
+
+	for (unsigned int i = 0; i <= a.size(); ++i)
+	{
+		if (a[i] == '+' || a[i] == '-' || a[i] == '\0')
+		{
+			if (minus == true)
+				result += -stoi(temp);
+			else
+				result += stoi(temp);
+
+			temp = "";
+			if (a[i] == '-')
+			{
+				minus = true;
+			}
+			continue;
+		}
+		temp += a[i];
+	}
+	cout << result << endl;
+	return 0;
+}
