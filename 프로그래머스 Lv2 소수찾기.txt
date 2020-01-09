@@ -1,0 +1,52 @@
+#include <string>
+#include <vector>
+#include <set>
+
+using namespace std;
+set<int> ans;
+
+bool prime(int number)
+{
+    if(number == 1) return false;
+    if(number % 2 ==0)
+    {
+        if(number == 2) return true;
+        return false;
+    }
+    for(int i =3 ; i<number/2; ++i)
+    {
+        if(number % i == 0)
+            return false;
+    }
+    return true;
+}
+
+void finder(string preNum, string elseNumber)
+{
+    if(preNum != "")
+    {
+        if(prime(stoi(preNum)))
+            ans.insert(stoi(preNum));
+    }
+    if(elseNumber.size() > 0)
+    {
+        string tmp;
+        string buf(preNum);
+        for(size_t i = 0; i < elseNumber.size(); i++)
+        {
+            tmp = elseNumber;
+            preNum.push_back(elseNumber[i]);
+            tmp.erase(i, 1);
+            finder(preNum, tmp);
+            preNum = buf;
+        }
+    }
+}
+
+int solution(string numbers) 
+{
+    string tmps;
+    string firstInput;
+    finder("", numbers);
+    return ans.size();
+}
