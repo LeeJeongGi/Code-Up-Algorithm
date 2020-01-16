@@ -1,0 +1,23 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int solution(vector<vector<int>> routes) 
+{
+    int answer = 1;
+    sort(routes.begin(), routes.end());
+    int pviot = routes[0][1];
+    
+    for(int i=0; i<routes.size(); i++)
+    {
+        if(pviot > routes[i][1]) pviot = routes[i][1];
+        if(pviot < routes[i][0])
+        {
+            answer++;
+            pviot = routes[i][1];
+        }
+    }
+    return answer;
+}
