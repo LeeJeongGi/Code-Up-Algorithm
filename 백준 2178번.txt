@@ -1,0 +1,85 @@
+#include <iostream>
+#include <queue>
+#include <string>
+#include <cstring>
+using namespace std;
+#define MAX 101
+
+bool visited[MAX][MAX];
+int maze[MAX][MAX];
+int n, m;
+
+typedef struct
+{
+	int y, x, pathlength;
+}dir;
+
+int minStep(int y, int x, int pathlength)
+{
+	queue<dir> q;
+	int result = 0;
+	dir start = { y,x, pathlength };
+	q.push(start);
+
+	while (!q.empty())
+	{
+		int curY = q.front().y;
+		int curX = q.front().x;
+		int curlength = q.front().pathlength;
+		if (curY == n - 1 && curX == m - 1)
+		{
+			result = curlength;
+			break;
+		}
+		q.pop();
+		visited[y][x] = true;
+
+		//동쪽
+		if (curX + 1 < m && maze[curY][curX+1] && !visited[curY][curX + 1])
+		{
+			dir east = { curY, curX + 1, curlength + 1};
+			visited[curY][curX + 1] = true;
+			q.push(east);
+		}
+		//서쪽
+		if (curX - 1 < m && maze[curY][curX-1] && !visited[curY][curX - 1])
+		{
+			dir west = { curY, curX - 1, curlength + 1 };
+			visited[curY][curX - 1] = true;
+			q.push(west);
+		}
+		//남쪽
+		if (curY+1< n && maze[curY+1][curX] && !visited[curY+1][curX])
+		{
+			dir south = { curY+1, curX, curlength + 1 };
+			visited[curY+1][curX] = true;
+			q.push(south);
+		}
+		//북쪽
+		if (curY - 1 < n && maze[curY - 1][curX] && !visited[curY - 1][curX])
+		{
+			dir north = { curY - 1, curX, curlength + 1 };
+			visited[curY - 1][curX] = true;
+			q.push(north);
+		}
+	}
+	return result;
+}
+
+int main()
+{
+	cin >> n >> m;
+	for (int i = 0; i < n; i++)
+	{
+		string temp;
+		cin >>temp;
+		for (int j = 0; j < m; j++)
+		{
+			maze[i][j] = temp[j] - '0';
+		}
+	}
+	memset(visited, false, sizeof(visited));
+	cout << minStep(0, 0, 1) << endl;
+
+	return 0;
+}
