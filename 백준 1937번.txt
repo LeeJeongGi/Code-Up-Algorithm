@@ -1,0 +1,71 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+int const MAX = 501;
+int green[MAX][MAX];
+int n;
+int cache[MAX][MAX];
+
+int maxDays(int y, int x)
+{
+	int &result = cache[y][x];
+	if (result != -1)
+		return result;
+	result = 1;
+	int temp;
+
+	//북
+	if (y - 1 >= 0 && green[y][x] < green[y - 1][x])
+	{
+		temp = 1 + maxDays(y - 1, x);
+		if (temp > result)
+			result = temp;
+	}
+	//남
+	if (y + 1 < n && green[y][x] < green[y + 1][x])
+	{
+		temp = 1 + maxDays(y + 1, x);
+		if (temp > result)
+			result = temp;
+	}
+	//동
+	if (x + 1 < n && green[y][x] < green[y][x + 1])
+	{
+		temp = 1 + maxDays(y, x + 1);
+		if (temp > result)
+			result = temp;
+	}
+	//서
+	if (x - 1 >= 0 && green[y][x] < green[y][x - 1])
+	{
+		temp = 1 + maxDays(y, x - 1);
+		if (temp > result)
+			result = temp;
+	}
+	return result;
+}
+
+int main()
+{
+	cin >> n;
+	if (n < 1 || n >= MAX)
+		exit(-1);
+
+	for(int i=0; i<n; i++)
+		for (int j = 0; j < n; j++)		
+			cin >> green[i][j];
+	
+	memset(cache, -1, sizeof(cache));
+	int result = 0;
+	for(int i=0; i<n; i++)
+		for (int j = 0; j < n; j++)
+		{
+			int temp = maxDays(i, j);
+			if (result < temp)
+				result = temp;
+		}
+	cout << result << endl;
+
+	return 0;
+}
