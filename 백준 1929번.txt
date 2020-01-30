@@ -1,0 +1,38 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+const int MAX = 1000001;
+
+int minFactor[MAX];
+
+void erathosthenes()
+{
+	minFactor[0] = minFactor[1] = -1;
+	for (int i = 2; i < MAX; i++)
+		minFactor[i] = i;
+
+	for (int i = 2; i < MAX; i++)
+	{
+		if (minFactor[i] == i)
+			for (int j = i + i; j < MAX; j += i)
+				if (minFactor[j] == j)
+					minFactor[j] = i;
+	}
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+	int m, n;
+	cin >> m >> n;
+
+	erathosthenes();
+	for (int i = m; i <= n; i++)
+	{
+		if (minFactor[i] == i)
+			cout << i << "\n";
+	}
+	return 0;
+}
