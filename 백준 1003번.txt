@@ -1,0 +1,44 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+int n;
+int save = 2;
+int cache[2][41];
+
+void fibonacci(int n)
+{
+	if (n >= save)
+	{
+		for (int i = save; i <= n; i++)
+		{
+			cache[0][i] = cache[0][i - 1] + cache[0][i - 2];
+			cache[1][i] = cache[1][i - 1] + cache[1][i - 2];
+		}
+		save = n;
+	}
+}
+
+void initialize()
+{
+	memset(cache, 0, sizeof(cache));
+	cache[0][0] = 1;
+	cache[1][1] = 1;
+}
+
+int main()
+{
+	int t;
+	cin >> t;
+	initialize();
+	for (int i = 0; i < t; i++)
+	{
+		cin >> n;
+		if (n > 40 || n < 0)
+			exit(-1);
+		fibonacci(n);
+		cout << cache[0][n] << " " << cache[1][n] << endl;
+	}
+
+	return 0;
+}

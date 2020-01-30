@@ -1,0 +1,38 @@
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+using namespace std;
+
+int cache[10000001];
+
+int minish(int x)
+{
+	int &result = cache[x];
+	if (result != -1)
+		return result;
+
+	if (x == 1)
+		return result;
+
+	int cnt = numeric_limits<int>::max();
+	if (x % 3 == 0)
+		cnt = min(cnt, minish(x / 3));
+	if (x % 2 == 0)
+		cnt = min(cnt, minish(x / 2));
+	cnt = min(cnt, minish(x - 1));
+
+	return result = cnt + 1;
+}
+
+int main()
+{
+	int x;
+	cin >> x;
+	if (x > 1000000)
+		exit(-1);
+	memset(cache, -1, sizeof(cache));
+	cache[0] = cache[1] = 0;
+	cout << minish(x) << endl;
+	
+	return 0;
+}
