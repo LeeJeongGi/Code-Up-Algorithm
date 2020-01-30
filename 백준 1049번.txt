@@ -1,0 +1,37 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int n, m;
+const int MAX = 50;
+const int INF = 987654321;
+
+int main()
+{
+	cin >> n >> m;
+	int pakage = INF;
+	int unit = INF;
+	for (int i = 0; i < m; i++)
+	{
+		int pakageCost, unitCost;
+		cin >> pakageCost >> unitCost;
+		//가장 싼 패키지와 가장 싼 개별가격을 구한다.
+		//브랜드는 신경 x 포인트.
+		pakage = min(pakage, pakageCost);
+		unit = min(unit, unitCost);
+	}
+	//6개 이하와 이상으로 나눠생각.
+	if (n <= 6)
+		cout << min(pakage, unit*n) << endl;
+	else
+	{
+		int result = INF;
+		for (int i = 0; i <= (n / 6) + 1; i++)
+		{
+			result = min(result, pakage*i + unit * max(n - 6 * i, 0));
+		}
+		cout << result << endl;
+	}
+
+	return 0;
+}

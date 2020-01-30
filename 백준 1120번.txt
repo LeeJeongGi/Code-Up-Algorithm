@@ -1,0 +1,33 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+int result;
+string s1, s2;
+const int INF = 987654321;
+
+void min()
+{
+	for (int i = 0; i <= s2.length() - s1.length(); i++)
+	{
+		int count=0;
+		for (int j = 0; j < s1.length(); ++j)
+		{
+			if (s1[j] != s2[j + i])
+				count++;
+		}
+		result = min(result, count);
+	}
+}
+
+int main()
+{
+	cin >> s1 >> s2;
+
+	result = INF;
+	min();
+	cout << result << endl;
+
+	return 0;
+}

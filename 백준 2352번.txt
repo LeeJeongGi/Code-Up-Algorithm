@@ -1,0 +1,38 @@
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+using namespace std;
+
+const int MAX = 40000;
+int n;
+int connect[MAX + 1];
+int cache[MAX + 1];
+
+int portLis(void)
+{
+	//초가값
+	cache[1] = connect[1];
+	int length = 1;
+	for (int i = 2; i <= n; i++)
+	{
+		if (cache[length] < connect[i])
+		{
+			cache[++length] = connect[i];
+			continue;
+		}
+		//i번째 왼쪽 포트에 연결되어있는 오른쪽 포트의 번호보다 작지 않은 최초의 위치 탐지
+		int idx = lower_bound(cache + 1, cache + length + 1, connect[i]) - cache;
+		cache[idx] = connect[i];
+	}
+	return length;
+}
+
+int main()
+{
+	cin >> n;
+	for (int i = 1; i <= n; i++)
+		cin >> connect[i];
+	cout << portLis() << endl;
+
+	return 0;
+}

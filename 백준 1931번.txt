@@ -1,0 +1,40 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+int n;
+int cBegin[100000], cEnd[100000];
+
+int schedule(void)
+{
+	vector<pair<int, int>> order;
+	for (int i = 0; i < n; i++)
+		order.push_back(make_pair(cEnd[i], cBegin[i]));
+	sort(order.begin(), order.end());
+
+	int earliest = 0, selected = 0;
+	for (int i = 0; i < order.size(); i++)
+	{
+		int MeetingBegin = order[i].second;
+		int MeetingEnd = order[i].first;
+
+		if (earliest <= MeetingBegin)
+		{
+			earliest = MeetingEnd;
+			selected++;
+		}
+	}
+	return selected;
+}
+
+int main()
+{
+	cin >> n;
+	for (int i = 0; i < n; i++)
+		cin >> cBegin[i] >> cEnd[i];
+
+	cout << schedule() << endl;
+
+	return 0;
+}
