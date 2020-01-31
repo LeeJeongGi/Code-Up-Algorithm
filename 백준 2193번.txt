@@ -1,0 +1,27 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+int n;
+long long cache[91];
+
+long long cnt()
+{
+	cache[1] = 1;
+	cache[2] = 1;
+
+	for (int i = 3; i <= n; i++)
+	{
+		cache[i] = cache[i - 2] + cache[i - 1];
+	}
+	return cache[n];
+}
+
+int main()
+{
+	cin >> n;
+
+	cout << cnt() << endl;
+
+	return 0;
+}

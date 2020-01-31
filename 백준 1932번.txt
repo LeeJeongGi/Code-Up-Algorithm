@@ -1,0 +1,38 @@
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+using namespace std;
+
+int n;
+int triangle[501][501];
+int cache[501][501];
+
+int maxSum(int y, int x)
+{
+	int& result = cache[y][x];
+	if (result != -1) return cache[y][x];
+
+	if (y == n - 1)
+		return result = triangle[y][x];
+
+	return result = max(maxSum(y + 1, x), maxSum(y + 1, x + 1)) + triangle[y][x];
+}
+
+int main()
+{
+	cin >> n;
+	if (n > 500 || n < 1)
+		exit(-1);
+
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j <= i; j++)
+		{
+			cin >> triangle[i][j];
+		}
+	}
+
+	std::memset(cache, -1, sizeof(cache));
+	cout << maxSum(0, 0) << endl;
+	return 0;
+}

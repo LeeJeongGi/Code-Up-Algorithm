@@ -1,0 +1,38 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+const int mod = 1000000000;
+int n;
+int cache[10][101];
+
+int stairNum(int value, int length)
+{
+	if (value < 0 || value > 9)
+		return 0;
+	int& result = cache[value][length];
+	if (result != -1)
+		return result;
+
+	return result = (stairNum(value - 1, length - 1) + stairNum(value + 1, length - 1)) % mod;
+}
+
+int main()
+{
+	cin >> n;
+	if (n < 1 || n > 100)
+		exit(-1);
+
+	memset(cache, -1, sizeof(cache));
+	for (int i = 0; i < 10; i++)
+		cache[i][1] = 1;
+	int sum = 0;
+	for (int i = 1; i <= 9; i++)
+	{
+		sum += stairNum(i, n);
+		sum %= mod;
+	}
+	cout << sum << endl;
+
+	return 0;
+}
