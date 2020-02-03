@@ -1,0 +1,36 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int n;
+int cnt;
+int Hansu(int input)
+{
+	int Han, ten, one;
+	if (n < 100)
+		return n;
+	else
+	{
+		for (int i = 100; i <= n; i++)
+		{
+			Han = i / 100;
+			ten = (i / 10) % 10;
+			one = i % 10;
+			if (Han - ten == ten - one)
+			{
+				cnt++;
+			}
+		}
+		return 99 + cnt;
+	}
+}
+
+int main()
+{
+	cin >> n;
+	
+	int result = Hansu(n);
+	cout << result << endl;
+
+	return 0;
+}

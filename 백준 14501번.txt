@@ -1,0 +1,41 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cstring>
+using namespace std;
+
+int n;
+vector<pair<int, int>> schedule;
+int cache[16];
+const int INF = 987654321;
+
+int maxSum(int day)
+{
+	if (day == n + 1)
+		return 0;
+	if (day > n + 1)
+		return -INF;
+
+	int& result = cache[day];
+	if (result != -1)
+		return result;
+	result = 0;
+	result += max(schedule[day].second + maxSum(day + schedule[day].first),
+		maxSum(day + 1));
+	return result;
+}
+
+int main()
+{
+	cin >> n;
+	schedule.resize(n+1);
+
+	for (int i = 1; i <= n; i++)
+	{
+		cin >> schedule[i].first >> schedule[i].second;
+	}
+
+	memset(cache, -1, sizeof(cache));
+	cout << maxSum(1) << endl;
+	return 0;
+}
