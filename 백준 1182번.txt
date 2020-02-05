@@ -1,0 +1,33 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int n, s;
+vector<int> v;
+int result = 0;
+
+void Subset(int idx, int sum)
+{
+	sum += v[idx];
+
+	if (idx >= n)
+		return;
+	if (sum == s)
+		result++;
+
+	Subset(idx + 1, sum);
+	Subset(idx + 1, sum - v[idx]);
+}
+
+int main()
+{
+	cin >> n >> s;
+	v.resize(n);
+	for (int i = 0; i < n; i++)
+		cin >> v[i];
+
+	Subset(0, 0);
+	cout << result << endl;
+	
+	return 0;
+}
