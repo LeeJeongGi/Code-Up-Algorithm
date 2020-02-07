@@ -1,0 +1,68 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+const int MAX = 50;
+int n, m;
+int city[MAX][MAX];
+vector<pair<int, int>> house;
+vector<pair<int, int>> chicken;
+bool visited[13];
+int result;
+
+int distance(pair<int, int> a, pair<int, int> b)
+{
+	return abs(a.first - b.first) + abs(a.second - b.second);
+}
+
+void dfs(int idx, int selected)
+{
+	if (selected == m)
+	{
+		int tempResult = 0;
+		for (int i = 0; i < house.size(); i++)
+		{
+			int dist = 987654321;
+			for (int j = 0; j < chicken.size(); j++)
+				if (visited[j])
+					dist = min(dist, distance(house[i], chicken[j]));
+
+			tempResult += dist;
+		}
+		result = min(result, tempResult);
+		return;
+	}
+
+	if (idx == chicken.size())
+		return;
+
+	//선택
+	visited[idx] = true;
+	dfs(idx + 1, selected + 1);
+	//선택 x
+	visited[idx] = false;
+	dfs(idx + 1, selected);
+}
+
+int main()
+{
+	cin >> n >> m;
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+			cin >> city[i][j];
+
+	for(int i=0; i<n; i++)
+		for (int j = 0; j < n; j++)
+		{
+			if (city[i][j] == 1)
+				house.push_back(make_pair(i, j));
+			else if (city[i][j] == 2)
+				chicken.push_back(make_pair(i, j));
+		}
+
+	result = 987654321;
+	dfs(0, 0);
+	cout << result << endl;
+	return 0;
+}
