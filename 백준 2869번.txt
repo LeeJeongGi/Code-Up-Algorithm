@@ -1,0 +1,34 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+const int INF = 1000000000 + 1;
+int a, b, v;
+
+long long binarySearch()
+{
+	long long start = 0, end = v / (a - b) + 1;
+	long long Day;
+	long long result = INF;
+	while (start <= end)
+	{
+		Day = (start + end) / 2;
+
+		if (v <= Day * (a - b) + a)
+		{
+			result = min(result, Day + 1);
+			end = Day - 1;
+		}
+		else
+			start = Day + 1;
+	}
+	return result;
+}
+
+int main()
+{
+	cin >> a >> b >> v;
+	cout << binarySearch() << endl;
+
+	return 0;
+}
