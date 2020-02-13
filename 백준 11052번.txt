@@ -1,0 +1,35 @@
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+using namespace std;
+
+const int MAX = 1001;
+int n;
+int money[MAX];
+int cache[MAX];
+
+int maxSum(int n)
+{
+	if (n == 0) return 0;
+
+	int& result = cache[n];
+	if (result != -1) return cache[n];
+
+	result = 0;
+	for (int i = 1; i <= n; i++)
+	{
+		result = max(result, maxSum(n - i) + money[i]);
+	}
+	return result;
+}
+
+int main()
+{
+	cin >> n;
+	for (int i = 1; i <= n; i++)
+		cin >> money[i];
+
+	memset(cache, -1, sizeof(cache));
+	cout << maxSum(n) << endl;
+	return 0;
+}
