@@ -1,0 +1,39 @@
+#include <iostream>
+using namespace std;
+
+const int MAX = 15;
+int k, n;
+int arr[MAX][MAX];
+
+void People()
+{
+	for (int i = 1; i < MAX; i++)
+		arr[0][i] = i;
+
+	for (int i = 1; i < MAX; i++)
+	{
+		int temp = 0;
+		for (int j = 1; j < MAX; j++)
+		{
+			arr[i][j] += temp + arr[i-1][j];
+			temp += arr[i-1][j];
+		}
+	}
+}
+
+
+int main()
+{
+	int test_case;
+	cin >> test_case;
+	
+	People();
+	for (int i = 0; i < test_case; i++)
+	{
+		cin >> k >> n;
+		
+		cout << arr[k][n] << endl;
+	}
+
+	return 0;
+}
