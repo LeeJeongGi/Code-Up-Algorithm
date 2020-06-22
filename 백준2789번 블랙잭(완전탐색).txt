@@ -1,0 +1,52 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+/*
+설계 : 우선 범위를 생각하면 최댓값 설정을 해둔다.
+	   입력 받은 수를 벡터에 저장 후 3장씩 더하는 모든 경우를 구한다.
+	   그 중 m을 넘지 않는 가장 큰수를 리턴 하면 된다.
+	   기저 사례만 작성 한다면 크게 어려움 없는 문제.
+*/
+
+const int MAX = 300000;
+vector<int> cardNum;
+int n, m;
+int result;
+
+void sumCard(int idx, int cnt, int sum) {
+
+	//조건을 만족 햇을 때 최댓값
+	if (cnt == 3 && sum <= m) {
+		result = max(result, sum);
+		return;
+	}
+
+	//기저사례 : sum을 넘었을 때, idx가 n을 넘었을 때, cnt가 3을 넘었을 때
+	if (idx >= n || cnt > 3 || sum > m)
+		return;
+
+	//카드 선택 했을 경우
+	sumCard(idx + 1, cnt + 1, sum + cardNum[idx]);
+	//카드 선택 안했을 경우
+	sumCard(idx + 1, cnt, sum);
+}
+
+int main()
+{	
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+	cin >> n >> m;
+
+	if (n < 3 && n > 100)
+		cout << "다시 입력하세요" << endl;
+	
+	cardNum.resize(n);
+	for (int i = 0; i < n; i++)
+		cin >> cardNum[i];
+
+	sumCard(0, 0, 0);
+	cout << result << endl;
+
+	return 0;
+}

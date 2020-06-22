@@ -11,7 +11,7 @@ int findCreator()
 		int copy = creator;
 		int sum = creator;
 
-		while (copy)
+		while (copy > 0)
 		{
 			sum += copy % 10;
 			copy /= 10;
