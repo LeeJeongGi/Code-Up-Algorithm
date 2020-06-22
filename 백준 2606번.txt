@@ -1,0 +1,54 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+const int MAX = 100 + 1;
+int n, m;
+int parent[MAX], setSize[MAX];
+
+int findParent(int node)
+{
+	if (node == parent[node])
+		return node;
+
+	return parent[node] = findParent(parent[node]);
+}
+
+void merge(int node1, int node2)
+{
+	node1 = findParent(node1);
+	node2 = findParent(node2);
+
+	if (node1 != node2)
+	{
+		if (setSize[node1] < setSize[node2])
+			swap(node1, node2);
+
+		parent[node2] = node1;
+		setSize[node1] += setSize[node2];
+		setSize[node2] = 0;
+	}
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+	cin >> n >> m;
+
+	for (int i = 1; i <= n; i++)
+	{
+		parent[i] = i;
+		setSize[i] = 1;
+	}
+
+	for (int i = 0; i < m; i++)
+	{
+		int a, b;
+		cin >> a >> b;
+		merge(a, b);
+	}
+	cout << setSize[parent[1]] - 1 << endl;
+
+	return 0;
+}

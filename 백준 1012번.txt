@@ -1,0 +1,69 @@
+#include <iostream>
+#include <cstring>
+#include <string>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+const int MAX = 51;
+int m, n, k;
+int vegetable[MAX][MAX];
+bool visited[MAX][MAX];
+
+typedef struct
+{
+	int y, x;
+}Dir;
+Dir moveDir[4] = { {1,0}, {-1,0}, {0,1}, {0,-1} };
+
+void dfs(int y, int x)
+{
+	if (visited[y][x])
+		return;
+
+	visited[y][x] = true;
+
+	for (int i = 0; i < 4; i++)
+	{
+		int nextY = y + moveDir[i].y;
+		int nextX = x + moveDir[i].x;
+
+		if (0 <= nextX && nextX < m && 0 <= nextY && nextY < n)
+		{
+			if (!visited[nextY][nextX] && vegetable[nextY][nextX] == 1)
+				dfs(nextY, nextX);
+		}
+	}
+}
+
+int main()
+{
+	int test_case;
+	cin >> test_case;
+
+	for (int i = 0; i < test_case; i++)
+	{
+		int cnt = 0;
+		cin >> m >> n >> k;
+		memset(vegetable, 0, sizeof(vegetable));
+		for (int J = 0; J < k; J++)
+		{
+			int a, b;
+			cin >> a >> b;
+			vegetable[b][a] = 1;
+		}
+
+		memset(visited, false, sizeof(visited));
+		for (int K = 0; K < n; K++)
+			for (int L = 0; L < m; L++)
+			{
+				if (!visited[K][L] && vegetable[K][L] == 1)
+				{
+					dfs(K, L);
+					cnt++;
+				}
+			}
+		cout << cnt << endl;
+	}
+	return 0;
+}
