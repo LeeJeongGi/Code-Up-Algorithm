@@ -1,0 +1,43 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <vector>
+#include <stack>
+using namespace std;
+
+bool yn_check(string s) {
+	int cnt = 0;
+
+	for (int i = 0; i < s.size(); i++) {
+		if (s[i] == '(')
+			cnt++;
+		else
+			cnt--;
+
+		if (cnt < 0)
+			return false;
+	}
+
+	if (cnt == 0)
+		return true;
+	else
+		return false;
+}
+
+int main() {
+
+	int test_case;
+	cin >> test_case;
+
+	for (int i = 0; i < test_case; i++) {
+		string s;
+		cin >> s;
+
+		if (yn_check(s))
+			cout << "YES" << endl;
+		else
+			cout << "NO" << endl;
+	}
+
+	return 0;
+}
