@@ -1,0 +1,54 @@
+#include <iostream>
+#include <string>
+#include <stack>
+#include <vector>
+#include <queue>
+#include <cstring>
+
+using namespace std;
+
+const int MAX = 101;
+const int INF = 100001;
+int n, m;
+int graph[MAX][MAX];
+
+void floyd() {
+	//거쳐가는 도시를 비교해서 최솟값을 찾는것
+	for (int i = 1; i <= n; i++) {
+		for (int from = 1; from <= n; from++) {
+			if (graph[from][i] == 0)
+				continue;
+			for (int to = 1; to <= n; to++) {
+				if (graph[i][to] == 0 || from == to)
+					continue;
+
+				if (graph[from][to] == 0 || graph[from][to] > graph[from][i] + graph[i][to])
+					graph[from][to] = graph[from][i] + graph[i][to];
+			}
+		}
+	}
+}
+
+int main(void)
+{
+	cin >> n >> m;
+
+	for (int i = 0; i < m; i++) {
+		int from, to, cost;
+		cin >> from >> to >> cost;
+
+		if (!graph[from][to])
+			graph[from][to] = cost;
+		else
+			graph[from][to] = min(graph[from][to], cost);
+	}
+	floyd();
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j <= n; j++)
+			cout << graph[i][j] << " ";
+		cout << endl;
+	}
+
+	return 0;
+
+}
