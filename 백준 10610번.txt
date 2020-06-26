@@ -1,0 +1,35 @@
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+#include <vector>
+#include <string>
+using namespace std;
+
+int main()
+{
+	string n;
+	vector<int> v;
+	bool flag = false;
+	long long sum = 0;
+
+	cin >> n;
+	
+	for (int i = 0; i < n.length(); i++) {
+		int temp = n[i] - '0';
+		if (temp == 0) flag = true;
+		sum += temp;
+
+		v.push_back(temp);
+	}
+
+	//flag가 false이고 sum값이 3의 배수가 아니라면 -1을 출력
+	if (!flag || (sum % 3 != 0))
+		cout << -1 << endl;
+	else {
+		sort(v.begin(), v.end());
+		for (int i = v.size() - 1; i >= 0; i--)
+			cout << v[i];
+	}
+	cout << endl;
+	return 0;
+}
